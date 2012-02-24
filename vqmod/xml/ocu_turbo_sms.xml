@@ -1,0 +1,214 @@
+<modification>
+  <!-- @system: info -->
+  <id>OCU TurboSMS</id>
+  <version>1.5.1.3</version>
+  <vqmver>2.1.5</vqmver>
+  <author>Kuligin Eugene / OpenCart Ukrainian Team</author>
+
+  <!-- @system: init -->
+  <file name="system/engine/controller.php">
+    <operation>
+      <search position="before"><![CDATA[public function __construct($registry) {]]></search>
+      <add>
+        <![CDATA[
+          // OCU TurboSMS [BEGIN]
+          protected function ocu_turbo_sms_init() {
+
+                // Load language
+                $this->load->language('module/ocu_turbo_sms');
+
+                if ($this->config->get('ocu_turbo_sms_host') &&
+                    $this->config->get('ocu_turbo_sms_login') &&
+                    $this->config->get('ocu_turbo_sms_password') &&
+                    $this->config->get('ocu_turbo_sms_db') &&
+                    file_exists(DIR_SYSTEM . 'library/ocu_turbo_sms/gateway.php')) {
+
+                    // Load OCU TurboSMS library
+                    require_once(DIR_SYSTEM . 'library/ocu_turbo_sms/gateway.php');
+
+                    $ocu_turbo_sms_gateway = new OCUTurboSMSGateway($this->config->get('ocu_turbo_sms_host'),
+                                                                    $this->config->get('ocu_turbo_sms_login'),
+                                                                    $this->config->get('ocu_turbo_sms_password'),
+                                                                    $this->config->get('ocu_turbo_sms_db'));
+                    // Create registry object
+                    if (!$ocu_turbo_sms_gateway->getError()) {
+
+                        // Set signature
+                        $ocu_turbo_sms_signature = $this->config->get('ocu_turbo_sms_signature');
+                        if (isset($ocu_turbo_sms_signature[$this->language->get('code')])) {
+                            $ocu_turbo_sms_gateway->setSign($ocu_turbo_sms_signature[$this->language->get('code')]);
+                        }
+
+                        // Set wap
+                        $ocu_turbo_sms_gateway->setWap($this->config->get('config_url'));
+
+                        // Add to global registry
+                        $this->registry->set('ocu_turbo_sms_gateway', $ocu_turbo_sms_gateway);
+                        return true;
+
+                    } else {
+
+                        // Notify administrator
+                        if ($this->config->has('ocu_turbo_sms_admin_gateway_connection_error')) {
+                            $mail = new Mail();
+
+                            $mail->protocol  = $this->config->get('config_mail_protocol');
+                            $mail->parameter = $this->config->get('config_mail_parameter');
+                            $mail->hostname  = $this->config->get('config_smtp_host');
+                            $mail->username  = $this->config->get('config_smtp_username');
+                            $mail->password  = $this->config->get('config_smtp_password');
+                            $mail->port      = $this->config->get('config_smtp_port');
+                            $mail->timeout   = $this->config->get('config_smtp_timeout');
+
+                            $mail->setTo($this->config->get('config_email'));
+                            $mail->setFrom($this->config->get('config_email'));
+                            $mail->setSender($this->config->get('config_name'));
+                            $mail->setSubject('TurboSMS connection error');
+                            $mail->setText(sprintf($this->language->get('ocu_turbo_sms_message_connection_error'),
+                                                   date('d.m.Y H:i:s'),
+                                                   $ocu_turbo_sms_gateway->getError()));
+                            $mail->send();
+                        }
+                        return false;
+                    }
+                }
+          }
+          // OCU TurboSMS [END]
+        ]]>
+      </add>
+    </operation>
+  </file>
+
+  <!-- @system: models -->
+  <file name="admin/model/sale/order.php">
+    <operation>
+      <search position="before"><![CDATA[public function getTotalOrderHistoriesByOrderStatusId($order_status_id) {]]></search>
+      <add>
+        <![CDATA[
+            // OCU TurboSMS [BEGIN]
+
+            public function getStatusName($order_status_id) {
+              $query = $this->db->query("SELECT name FROM order_status WHERE order_status_id = '" . (int)$order_status_id . "' AND language_id = '" . (int)$this->config->get('config_language_id') . "' LIMIT 1");
+
+              return $query->row['name'];
+            }
+            // OCU TurboSMS [END]
+        ]]>
+      </add>
+    </operation>
+  </file>
+
+  <!-- @admin: received new message -->
+  <file name="catalog/controller/information/contact.php">
+    <operation>
+      <search position="before"><![CDATA[$this->redirect($this->url->link('information/contact/success'));]]></search>
+      <add>
+        <![CDATA[
+            // OCU TurboSMS [BEGIN]
+
+            if (true === $this->ocu_turbo_sms_init() && $this->config->get('ocu_turbo_sms_admin_new_email')) {
+
+                $this->ocu_turbo_sms_gateway->send($this->config->get('config_telephone'),
+                                                  $this->language->get('ocu_turbo_sms_message_admin_new_email'));
+            }
+            // OCU TurboSMS [END]
+        ]]>
+      </add>
+    </operation>
+  </file>
+
+  <!-- @admin: new member is registered & @customer: congratulations -->
+  <file name="catalog/controller/account/register.php">
+    <operation>
+      <search position="before"><![CDATA[$this->redirect($this->url->link('account/success'));]]></search>
+      <add>
+        <![CDATA[
+            // OCU TurboSMS [BEGIN]
+
+            if (true === $this->ocu_turbo_sms_init() && $this->config->get('ocu_turbo_sms_admin_new_customer')) {
+
+                $this->ocu_turbo_sms_gateway->send($this->config->get('config_telephone'),
+                                                  $this->language->get('ocu_turbo_sms_message_admin_new_customer'));
+            }
+
+            if (true === $this->ocu_turbo_sms_init() && $this->config->get('ocu_turbo_sms_customer_new_register')) {
+
+                $this->ocu_turbo_sms_gateway->send($this->request->post['telephone'],
+                                                  sprintf($this->language->get('ocu_turbo_sms_message_customer_new_register'),
+                                                                               $this->config->get('config_name')));
+            }
+            // OCU TurboSMS [END]
+        ]]>
+      </add>
+    </operation>
+  </file>
+  <file name="catalog/controller/checkout/register.php">
+    <operation>
+      <search position="after"><![CDATA[$this->model_account_customer->addCustomer($this->request->post);]]></search>
+      <add>
+        <![CDATA[
+            // OCU TurboSMS [BEGIN]
+
+            if (true === $this->ocu_turbo_sms_init() && $this->config->get('ocu_turbo_sms_admin_new_customer')) {
+
+                $this->ocu_turbo_sms_gateway->send($this->config->get('config_telephone'),
+                                                  $this->language->get('ocu_turbo_sms_message_admin_new_customer'));
+            }
+
+            if (true === $this->ocu_turbo_sms_init() && $this->config->get('ocu_turbo_sms_customer_new_register')) {
+
+                $this->ocu_turbo_sms_gateway->send($this->request->post['telephone'],
+                                                  sprintf($this->language->get('ocu_turbo_sms_message_customer_new_register'),
+                                                                               $this->config->get('config_name')));
+            }
+            // OCU TurboSMS [END]
+        ]]>
+      </add>
+    </operation>
+  </file>
+
+  <!-- @admin: new order is available -->
+  <file name="catalog/controller/checkout/confirm.php">
+    <operation>
+      <search position="after"><![CDATA[$this->session->data['order_id'] = $this->model_checkout_order->create($data);]]></search>
+      <add>
+        <![CDATA[
+            // OCU TurboSMS [BEGIN]
+
+            if (true === $this->ocu_turbo_sms_init() && $this->config->get('ocu_turbo_sms_admin_new_order')) {
+
+                $this->ocu_turbo_sms_gateway->send($this->config->get('config_telephone'),
+                                                  $this->language->get('ocu_turbo_sms_message_admin_new_order'));
+            }
+            // OCU TurboSMS [END]
+        ]]>
+      </add>
+    </operation>
+  </file>
+
+  <!-- @customer: new order status is available -->
+  <file name="admin/controller/sale/order.php">
+    <operation>
+      <search position="before"><![CDATA[$this->model_sale_order->addOrderHistory($this->request->get['order_id'], $this->request->post);]]></search>
+      <add>
+        <![CDATA[
+            // OCU TurboSMS [BEGIN]
+
+            if (true === $this->ocu_turbo_sms_init() && $this->config->get('ocu_turbo_sms_customer_new_order_status') && $this->request->post['notify']) {
+
+                $last_order = $this->model_sale_order->getOrder($this->request->get['order_id']);
+
+                if ($last_order['order_status_id'] != $this->request->post['order_status_id']) {
+
+                    $this->ocu_turbo_sms_gateway->send($last_order['telephone'],
+                                                      sprintf($this->language->get('ocu_turbo_sms_message_customer_new_order_status'),
+                                                      $this->request->get['order_id'],
+                                                      $this->model_sale_order->getStatusName($this->request->post['order_status_id'])));
+                }
+            }
+            // OCU TurboSMS [END]
+        ]]>
+      </add>
+    </operation>
+  </file>
+</modification>
