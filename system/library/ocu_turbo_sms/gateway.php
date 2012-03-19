@@ -48,6 +48,9 @@ final class OCUTurboSMSGateway
             $this->_error = $e->getMessage();
         }
 
+        // Set transfer encoding
+        $this->_connection->query("SET NAMES utf8");
+
         // Add default DLR
         $this->addDlr('UNSENDED');
         $this->addDlr('ERROR');
