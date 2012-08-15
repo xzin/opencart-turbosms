@@ -14,7 +14,7 @@
  *
  * @category   OpenCart
  * @package    OCU TurboSMS
- * @copyright  Copyright (c) 2011 Eugene Kuligin by OpenCart Ukrainian Community (http://opencart.ua)
+ * @copyright  Copyright (c) 2011 Eugene Kuligin by OpenCart Ukrainian Community (http://www.opencart.ua)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License, Version 3
  */
 
@@ -23,7 +23,7 @@
 /**
  * @category   OpenCart
  * @package    OCU TurboSMS
- * @copyright  Copyright (c) 2011 Eugene Kuligin by OpenCart Ukrainian Community (http://opencart.ua)
+ * @copyright  Copyright (c) 2011 Eugene Kuligin by OpenCart Ukrainian Community (http://www.opencart.ua)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License, Version 3
  */
 
@@ -121,7 +121,7 @@ $_['ocu_turbo_sms_text_about_tab_description'] =
 <br />
 Модуль предназначен для рассылки SMS уведомлений посредством шлюза TurboSMS.
 <br /><br />
-Продукт разработан под управлением проекта <a href="http://opencart.ua" target="_blank">OpenCart Ukrainian Community</a><br />
+Продукт разработан под управлением проекта <a href="http://www.opencart.ua" target="_blank">OpenCart Ukrainian Community</a><br />
 Данное произведение распространяется на основании лицензии <a href="http://www.gnu.org/copyleft/gpl.html" target="_blank">GNU General Public License, Version 3</a><br /><br />
 Текущая версия: %s<br />
-<a href="http://opencart.ua" target="_blank">Страница проекта</a> | <a href="http://forum.opencart.ua" target="_blank">Центр поддержки</a> | <a href="http://opencart.ua/contact" target="_blank">Связаться с нами</a>';
+<a href="http://www.opencart.ua" target="_blank">Страница проекта</a> | <a href="http://forum.opencart.ua" target="_blank">Центр поддержки</a> | <a href="http://www.opencart.ua/contact" target="_blank">Связаться с нами</a>';
