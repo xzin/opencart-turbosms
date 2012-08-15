@@ -170,7 +170,7 @@
   <!-- @admin: new order is available -->
   <file name="catalog/controller/checkout/confirm.php">
     <operation>
-      <search position="after"><![CDATA[$this->session->data['order_id'] = $this->model_checkout_order->create($data);]]></search>
+      <search position="after"><![CDATA[$this->session->data['order_id'] = $this->model_checkout_order->addOrder($data);]]></search>
       <add>
         <![CDATA[
             // OCU TurboSMS [BEGIN]
@@ -189,12 +189,12 @@
   <!-- @customer: new order status is available -->
   <file name="admin/controller/sale/order.php">
     <operation>
-      <search position="before"><![CDATA[$this->model_sale_order->addOrderHistory($this->request->get['order_id'], $this->request->post);]]></search>
+      <search position="before"><![CDATA[$this->model_sale_order->editOrder($this->request->get['order_id'], $this->request->post);]]></search>
       <add>
         <![CDATA[
             // OCU TurboSMS [BEGIN]
 
-            if (true === $this->ocu_turbo_sms_init() && $this->config->get('ocu_turbo_sms_customer_new_order_status') && $this->request->post['notify']) {
+            if (true === $this->ocu_turbo_sms_init() && $this->config->get('ocu_turbo_sms_customer_new_order_status')) {
 
                 $last_order = $this->model_sale_order->getOrder($this->request->get['order_id']);
 
