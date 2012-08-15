@@ -14,7 +14,7 @@
  *
  * @category   OpenCart
  * @package    OCU TurboSMS
- * @copyright  Copyright (c) 2011 Eugene Kuligin by OpenCart Ukrainian Community (http://opencart.ua)
+ * @copyright  Copyright (c) 2011 Eugene Kuligin by OpenCart Ukrainian Community (http://www.opencart.ua)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License, Version 3
  */
 
@@ -23,7 +23,7 @@
 /**
  * @category   OpenCart
  * @package    OCU TurboSMS
- * @copyright  Copyright (c) 2011 Eugene Kuligin by OpenCart Ukrainian Community (http://opencart.ua)
+ * @copyright  Copyright (c) 2011 Eugene Kuligin by OpenCart Ukrainian Community (http://www.opencart.ua)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License, Version 3
  */
 
@@ -37,7 +37,7 @@ $_['ocu_turbo_sms_tab_connection'] = 'Connection';
 $_['ocu_turbo_sms_tab_signature'] = 'Signature';
 $_['ocu_turbo_sms_tab_member'] = 'Administrator';
 $_['ocu_turbo_sms_tab_customer'] = 'Customer';
-$_['ocu_turbo_sms_tab_about'] = 'About the product';
+$_['ocu_turbo_sms_tab_about'] = 'About';
 
 // Text
 $_['ocu_turbo_sms_text_success'] = 'The module is connected. Module Configuration successfully saved!';
@@ -78,12 +78,12 @@ $_['ocu_turbo_sms_text_credits'] = 'Credits';
 $_['ocu_turbo_sms_text_send_time'] = 'Sending time';
 $_['ocu_turbo_sms_text_sended'] = 'Sent';
 $_['ocu_turbo_sms_text_updated'] = 'Updating time';
-$_['ocu_turbo_sms_text_connection_established'] = 'The connection is established';
+$_['ocu_turbo_sms_text_connection_established'] = 'Connection is established';
 $_['ocu_turbo_sms_text_connection_error'] = 'Gateway is not connected';
 $_['ocu_turbo_sms_text_items_not_found'] = 'Massages are not found';
 
 // Error
-$_['ocu_turbo_sms_error_permission'] = 'You have not authority to change the settings of this module!';
+$_['ocu_turbo_sms_error_permission'] = 'You have not authority to change settings of this module!';
 $_['ocu_turbo_sms_error_request'] = 'Request faild';
 $_['ocu_turbo_sms_error_host_field'] = 'You must specify a gateway server';
 $_['ocu_turbo_sms_error_database_field'] = 'You must specify a database';
@@ -91,7 +91,7 @@ $_['ocu_turbo_sms_error_login_field'] = 'You must specify a login';
 $_['ocu_turbo_sms_error_password_field'] = 'You must specify a password';
 
 // Messages
-$_['ocu_turbo_sms_message_customer_new_order_status'] = 'The order status #%s is changed on "%s".';
+$_['ocu_turbo_sms_message_customer_new_order_status'] = 'Order status #%s is changed on "%s".';
 
 // Other
 $_['ocu_turbo_sms_text_welcome'] =
@@ -119,9 +119,9 @@ Note that the signature must be approved in the control panel service.';
 $_['ocu_turbo_sms_text_about_tab_description'] =
 '<b>%s &copy; %s All rights reserved</b><br />
 <br />
-The module is designed to send SMS notifications via gateway TurboSMS.
+Module is designed to send SMS notifications via gateway TurboSMS.
 <br /><br />
-The product was developed under the project <a href="http://opencart.ua" target="_blank">OpenCart Ukrainian Community</a><br />
+Product was developed under the project <a href="http://www.opencart.ua" target="_blank">OpenCart Ukrainian Community</a><br />
 This product is distributed under a <a href="http://www.gnu.org/copyleft/gpl.html" target="_blank">GNU General Public License, Version 3</a><br /><br />
 Current version: %s<br />
-<a href="http://opencart.ua" target="_blank">Project page</a> | <a href="http://forum.opencart.ua" target="_blank">Support center</a> | <a href="http://opencart.ua/contact" target="_blank">Contact us</a>';
+<a href="http://www.opencart.ua" target="_blank">Project page</a> | <a href="http://forum.opencart.ua" target="_blank">Support center</a> | <a href="http://www.opencart.ua/contact" target="_blank">Contact us</a>';
