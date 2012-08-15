@@ -210,5 +210,27 @@
         ]]>
       </add>
     </operation>
+    <operation>
+      <search position="before"><![CDATA[$this->model_sale_order->addOrderHistory($this->request->get['order_id'], $this->request->post);]]></search>
+      <add>
+        <![CDATA[
+            // OCU TurboSMS [BEGIN]
+
+            if (true === $this->ocu_turbo_sms_init() && $this->config->get('ocu_turbo_sms_customer_new_order_status') && $this->request->post['notify']) {
+
+                $last_order = $this->model_sale_order->getOrder($this->request->get['order_id']);
+
+                if ($last_order['order_status_id'] != $this->request->post['order_status_id']) {
+
+                    $this->ocu_turbo_sms_gateway->send($last_order['telephone'],
+                                                      sprintf($this->language->get('ocu_turbo_sms_message_customer_new_order_status'),
+                                                      $this->request->get['order_id'],
+                                                      $this->model_sale_order->getStatusName($this->request->post['order_status_id'])));
+                }
+            }
+            // OCU TurboSMS [END]
+          ]]>
+      </add>
+    </operation>
   </file>
 </modification>
