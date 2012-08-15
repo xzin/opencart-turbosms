@@ -14,7 +14,7 @@
  *
  * @category   OpenCart
  * @package    OCU TurboSMS
- * @copyright  Copyright (c) 2011 Eugene Kuligin by OpenCart Ukrainian Community (http://www.opencart.ua)
+ * @copyright  Copyright (c) 2011 Eugene Kuligin by OpenCart Ukrainian Community (http://opencart.ua)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License, Version 3
  */
 
@@ -23,7 +23,7 @@
 /**
  * @category   OpenCart
  * @package    OCU TurboSMS
- * @copyright  Copyright (c) 2011 Eugene Kuligin by OpenCart Ukrainian Community (http://www.opencart.ua)
+ * @copyright  Copyright (c) 2011 Eugene Kuligin by OpenCart Ukrainian Community (http://opencart.ua)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License, Version 3
  */
 
@@ -135,10 +135,10 @@ final class OCUTurboSMSGateway
         if (isset($filter['count']) && $filter['count'] != 'all') {
             $limit = "LIMIT {$filter['count']}";
         } else {
-            $limit = false;
+            $limit = "LIMIT 10";
         }
 
-        return $this->_connection->query("SELECT * FROM $this->_table " . (count($where) ? "WHERE " . implode(" $rule ", $where) : false) . " ORDER BY id $limit")
+        return $this->_connection->query("SELECT * FROM $this->_table " . (count($where) ? "WHERE " . implode(" $rule ", $where) : false) . " ORDER BY id DESC $limit")
                                  ->fetchAll();
     }
 
