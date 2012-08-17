@@ -132,8 +132,12 @@ final class OCUTurboSMSGateway
             $where[] = "dlr_status = '{$filter['dlr_status']}'";
         }
 
-        if (isset($filter['count']) && $filter['count'] != 'all') {
-            $limit = "LIMIT {$filter['count']}";
+        if (isset($filter['count'])) {
+            if ($filter['count'] == 'all') {
+                $limit = false;
+            } else {
+                $limit = "LIMIT {$filter['count']}";
+            }
         } else {
             $limit = "LIMIT 10";
         }
