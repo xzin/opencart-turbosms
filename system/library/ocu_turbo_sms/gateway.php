@@ -157,8 +157,8 @@ final class OCUTurboSMSGateway
     public function send($number, $message)
     {
         return $this->_connection->exec("INSERT INTO $this->_table ".
-                                        "(number, sign, message, send_time, wappush) ".
-                                        "VALUES ('$number', '$this->_sign', '$message', NOW(), '$this->_wap')");
+                                        "(number, sign, message, send_time) ".
+                                        "VALUES ('$number', '$this->_sign', '$message', NOW())");
 
     }
 
